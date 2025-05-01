@@ -8,11 +8,16 @@
 #define ID2_SECONDAPP 2002
 #define ID3_FIRSTAPP 3001
 #define ID3_SECONDAPP 3002
+#define ID4_CREATEFIBER 4001
+#define ID4_DELETEFIBER 4002
 
 // Глобальные переменные:
 HINSTANCE hInst;                                // текущий экземпляр
 WCHAR szTitle[MAX_LOADSTRING];                  // Текст строки заголовка
 WCHAR szWindowClass[MAX_LOADSTRING];            // имя класса главного окна
+DWORD childstyle = WS_CHILD | WS_CAPTION | WS_POPUP;
+extern WCHAR szThreadChildClass[100]; // имя класса дочернего окна с потоками, объявлено в threads.cpp
+HWND hThreadW, hFiberW; // тут сохраним дескрипторы дочерних окон для их корректного удаления
 
 // Отправить объявления функций, включенных в этот модуль кода:
 ATOM                MyRegisterClass(HINSTANCE hInstance);
@@ -33,6 +38,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     LoadStringW(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
     LoadStringW(hInstance, IDC_LAB6, szWindowClass, MAX_LOADSTRING);
     MyRegisterClass(hInstance);
+    RegisterThreadChild(hInstance);
 
     // Выполнить инициализацию приложения:
     if (!InitInstance (hInstance, nCmdShow))
@@ -122,7 +128,8 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    CreateWindow(L"BUTTON", L"1-е приложение", WS_VISIBLE | WS_CHILD, cords_x[1][2], cords_y[1][2], width, height, hWnd, (HMENU)ID3_FIRSTAPP, hInstance, NULL);
    CreateWindow(L"BUTTON", L"2-е приложение", WS_VISIBLE | WS_CHILD, cords_x[2][2], cords_y[2][2], width, height, hWnd, (HMENU)ID3_SECONDAPP, hInstance, NULL);
    CreateWindow(L"STATIC", L"Задание 8,9", WS_VISIBLE | WS_CHILD, cords_x[0][3], cords_y[0][3], width, height, hWnd, NULL, hInstance, NULL);
-   CreateWindow(L"BUTTON", L"Создать волокно", WS_VISIBLE | WS_CHILD, cords_x[1][3], cords_y[1][3], width, height, hWnd, (HMENU)ID3_FIRSTAPP, hInstance, NULL);
+   CreateWindow(L"BUTTON", L"Создать волокно", WS_VISIBLE | WS_CHILD, cords_x[1][3], cords_y[1][3], width, height, hWnd, (HMENU)ID4_CREATEFIBER, hInstance, NULL);
+   CreateWindow(L"BUTTON", L"Удалить волокно", WS_VISIBLE | WS_CHILD, cords_x[2][3], cords_y[2][3], width, height, hWnd, (HMENU)ID4_DELETEFIBER, hInstance, NULL);
 
    if (!hWnd)
    {
@@ -135,16 +142,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    return TRUE;
 }
 
-//
-//  ФУНКЦИЯ: WndProc(HWND, UINT, WPARAM, LPARAM)
-//
-//  ЦЕЛЬ: Обрабатывает сообщения в главном окне.
-//
-//  WM_COMMAND  - обработать меню приложения
-//  WM_PAINT    - Отрисовка главного окна
-//  WM_DESTROY  - отправить сообщение о выходе и вернуться
-//
-//
+
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
     switch (message)
@@ -156,6 +154,16 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             {
             case IDM_EXIT:
                 DestroyWindow(hWnd);
+                break;
+            case ID1_CREATETHREAD:
+                {
+                    POINT p = GetThreadChildSize();
+                    hThreadW = CreateWindow(szThreadChildClass, L"Тут работают потоки", childstyle, CW_USEDEFAULT, 0, p.x, p.y, hWnd, NULL, hInst, NULL);
+                    ShowWindow(hThreadW, SW_SHOW);
+                }
+                break;
+            case ID1_DELETETHREAD:
+                DestroyWindow(hThreadW);
                 break;
             default:
                 return DefWindowProc(hWnd, message, wParam, lParam);

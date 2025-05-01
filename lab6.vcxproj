@@ -134,6 +134,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="lab6.cpp" />
+    <ClCompile Include="threads.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="lab6.rc" />

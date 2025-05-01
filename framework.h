@@ -13,3 +13,7 @@
 #include <malloc.h>
 #include <memory.h>
 #include <tchar.h>
+
+// дочерние окна
+ATOM RegisterThreadChild(HINSTANCE);
+POINT GetThreadChildSize();
