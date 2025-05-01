@@ -1,9 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.13.35825.156 d17.13
+VisualStudioVersion = 17.13.35825.156
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lab6", "lab6.vcxproj", "{4BCCC6C1-0FCC-4C9E-9DDC-716C808C622F}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "task2-1", "task2-1\task2-1.vcxproj", "{3C417E53-EC2E-466E-B11E-F87C5A1598AC}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "task2-2", "task2-2\task2-2.vcxproj", "{C0C870E3-080C-4BA3-9C58-59AF9E3F6484}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +25,22 @@ Global
 		{4BCCC6C1-0FCC-4C9E-9DDC-716C808C622F}.Release|x64.Build.0 = Release|x64
 		{4BCCC6C1-0FCC-4C9E-9DDC-716C808C622F}.Release|x86.ActiveCfg = Release|Win32
 		{4BCCC6C1-0FCC-4C9E-9DDC-716C808C622F}.Release|x86.Build.0 = Release|Win32
+		{3C417E53-EC2E-466E-B11E-F87C5A1598AC}.Debug|x64.ActiveCfg = Debug|x64
+		{3C417E53-EC2E-466E-B11E-F87C5A1598AC}.Debug|x64.Build.0 = Debug|x64
+		{3C417E53-EC2E-466E-B11E-F87C5A1598AC}.Debug|x86.ActiveCfg = Debug|Win32
+		{3C417E53-EC2E-466E-B11E-F87C5A1598AC}.Debug|x86.Build.0 = Debug|Win32
+		{3C417E53-EC2E-466E-B11E-F87C5A1598AC}.Release|x64.ActiveCfg = Release|x64
+		{3C417E53-EC2E-466E-B11E-F87C5A1598AC}.Release|x64.Build.0 = Release|x64
+		{3C417E53-EC2E-466E-B11E-F87C5A1598AC}.Release|x86.ActiveCfg = Release|Win32
+		{3C417E53-EC2E-466E-B11E-F87C5A1598AC}.Release|x86.Build.0 = Release|Win32
+		{C0C870E3-080C-4BA3-9C58-59AF9E3F6484}.Debug|x64.ActiveCfg = Debug|x64
+		{C0C870E3-080C-4BA3-9C58-59AF9E3F6484}.Debug|x64.Build.0 = Debug|x64
+		{C0C870E3-080C-4BA3-9C58-59AF9E3F6484}.Debug|x86.ActiveCfg = Debug|Win32
+		{C0C870E3-080C-4BA3-9C58-59AF9E3F6484}.Debug|x86.Build.0 = Debug|Win32
+		{C0C870E3-080C-4BA3-9C58-59AF9E3F6484}.Release|x64.ActiveCfg = Release|x64
+		{C0C870E3-080C-4BA3-9C58-59AF9E3F6484}.Release|x64.Build.0 = Release|x64
+		{C0C870E3-080C-4BA3-9C58-59AF9E3F6484}.Release|x86.ActiveCfg = Release|Win32
+		{C0C870E3-080C-4BA3-9C58-59AF9E3F6484}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

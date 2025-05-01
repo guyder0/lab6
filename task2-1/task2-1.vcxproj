@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{4bccc6c1-0fcc-4c9e-9ddc-716c808c622f}</ProjectGuid>
-    <RootNamespace>lab6</RootNamespace>
+    <ProjectGuid>{3c417e53-ec2e-466e-b11e-f87c5a1598ac}</ProjectGuid>
+    <RootNamespace>task21</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -128,25 +128,19 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="framework.h" />
-    <ClInclude Include="lab6.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="task2-1.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="lab6.cpp" />
-    <ClCompile Include="threads.cpp" />
+    <ClCompile Include="task2-1.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="lab6.rc" />
+    <ResourceCompile Include="task2-1.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="lab6.ico" />
     <Image Include="small.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="task2-1\task2-1.vcxproj">
-      <Project>{3c417e53-ec2e-466e-b11e-f87c5a1598ac}</Project>
-    </ProjectReference>
+    <Image Include="task2-1.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

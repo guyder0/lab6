@@ -74,9 +74,8 @@ static LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM l
         pDataArray[1]->rect = { width / 2, 0, width, height };
         for (int i = 0; i < 2; i++)
             hThreadArray[i] = CreateThread(NULL, 0, MyThreadFunction, pDataArray[i], 0, &dwThreadIdArray[i]);
-
+        return DefWindowProc(hWnd, message, wParam, lParam);
     }
-    break;
     case WM_PAINT:
     {
         PAINTSTRUCT ps;
