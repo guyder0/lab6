@@ -1,10 +1,13 @@
-﻿// lab6.cpp : Определяет точку входа для приложения.
-//
-
-#include "framework.h"
+﻿#include "framework.h"
 #include "lab6.h"
 
 #define MAX_LOADSTRING 100
+#define ID1_CREATETHREAD 1001
+#define ID1_DELETETHREAD 1002
+#define ID2_FIRSTAPP 2001
+#define ID2_SECONDAPP 2002
+#define ID3_FIRSTAPP 3001
+#define ID3_SECONDAPP 3002
 
 // Глобальные переменные:
 HINSTANCE hInst;                                // текущий экземпляр
@@ -15,7 +18,6 @@ WCHAR szWindowClass[MAX_LOADSTRING];            // имя класса глав�
 ATOM                MyRegisterClass(HINSTANCE hInstance);
 BOOL                InitInstance(HINSTANCE, int);
 LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
-INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_opt_ HINSTANCE hPrevInstance,
@@ -96,9 +98,31 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
 BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 {
    hInst = hInstance; // Сохранить маркер экземпляра в глобальной переменной
+   DWORD style = WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX;
+   int width = 120, height = 30, dx = 10;
+   const int m = 3, n = 4;
+   RECT rect = { 0, 0, n * width + (n + 1) * dx, m * height + (m + 1) * dx };
+   int cords_x[m][n], cords_y[m][n];
+   for (int i = 0; i < m; i++)
+       for (int j = 0; j < n; j++) {
+           cords_x[i][j] = (j + 1) * dx + j * width;
+           cords_y[i][j] = (i + 1) * dx + i * height;
+       }
 
-   HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
-      CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, hInstance, nullptr);
+   AdjustWindowRect(&rect, style, TRUE);
+   HWND hWnd = CreateWindowW(szWindowClass, szTitle, style,
+      CW_USEDEFAULT, 0, rect.right - rect.left, rect.bottom - rect.top, nullptr, nullptr, hInstance, nullptr);
+   CreateWindow(L"STATIC", L"Задание 1", WS_VISIBLE | WS_CHILD, cords_x[0][0], cords_y[0][0], width, height, hWnd, NULL, hInstance, NULL);
+   CreateWindow(L"BUTTON", L"Создать поток", WS_VISIBLE | WS_CHILD, cords_x[1][0], cords_y[1][0], width, height, hWnd, (HMENU)ID1_CREATETHREAD, hInstance, NULL);
+   CreateWindow(L"BUTTON", L"Удалить поток", WS_VISIBLE | WS_CHILD, cords_x[2][0], cords_y[2][0], width, height, hWnd, (HMENU)ID1_DELETETHREAD, hInstance, NULL);
+   CreateWindow(L"STATIC", L"Задание 2,3,4,5", WS_VISIBLE | WS_CHILD, cords_x[0][1], cords_y[0][1], width, height, hWnd, NULL, hInstance, NULL);
+   CreateWindow(L"BUTTON", L"1-е приложение", WS_VISIBLE | WS_CHILD, cords_x[1][1], cords_y[1][1], width, height, hWnd, (HMENU)ID2_FIRSTAPP, hInstance, NULL);
+   CreateWindow(L"BUTTON", L"2-е приложение", WS_VISIBLE | WS_CHILD, cords_x[2][1], cords_y[2][1], width, height, hWnd, (HMENU)ID2_SECONDAPP, hInstance, NULL);
+   CreateWindow(L"STATIC", L"Задание 6,7", WS_VISIBLE | WS_CHILD, cords_x[0][2], cords_y[0][2], width, height, hWnd, NULL, hInstance, NULL);
+   CreateWindow(L"BUTTON", L"1-е приложение", WS_VISIBLE | WS_CHILD, cords_x[1][2], cords_y[1][2], width, height, hWnd, (HMENU)ID3_FIRSTAPP, hInstance, NULL);
+   CreateWindow(L"BUTTON", L"2-е приложение", WS_VISIBLE | WS_CHILD, cords_x[2][2], cords_y[2][2], width, height, hWnd, (HMENU)ID3_SECONDAPP, hInstance, NULL);
+   CreateWindow(L"STATIC", L"Задание 8,9", WS_VISIBLE | WS_CHILD, cords_x[0][3], cords_y[0][3], width, height, hWnd, NULL, hInstance, NULL);
+   CreateWindow(L"BUTTON", L"Создать волокно", WS_VISIBLE | WS_CHILD, cords_x[1][3], cords_y[1][3], width, height, hWnd, (HMENU)ID3_FIRSTAPP, hInstance, NULL);
 
    if (!hWnd)
    {
@@ -128,12 +152,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     case WM_COMMAND:
         {
             int wmId = LOWORD(wParam);
-            // Разобрать выбор в меню:
             switch (wmId)
             {
-            case IDM_ABOUT:
-                DialogBox(hInst, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, About);
-                break;
             case IDM_EXIT:
                 DestroyWindow(hWnd);
                 break;
@@ -146,7 +166,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         {
             PAINTSTRUCT ps;
             HDC hdc = BeginPaint(hWnd, &ps);
-            // TODO: Добавьте сюда любой код прорисовки, использующий HDC...
             EndPaint(hWnd, &ps);
         }
         break;
@@ -157,24 +176,4 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         return DefWindowProc(hWnd, message, wParam, lParam);
     }
     return 0;
-}
-
-// Обработчик сообщений для окна "О программе".
-INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
-{
-    UNREFERENCED_PARAMETER(lParam);
-    switch (message)
-    {
-    case WM_INITDIALOG:
-        return (INT_PTR)TRUE;
-
-    case WM_COMMAND:
-        if (LOWORD(wParam) == IDOK || LOWORD(wParam) == IDCANCEL)
-        {
-            EndDialog(hDlg, LOWORD(wParam));
-            return (INT_PTR)TRUE;
-        }
-        break;
-    }
-    return (INT_PTR)FALSE;
 }
