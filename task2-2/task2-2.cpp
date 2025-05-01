@@ -10,6 +10,7 @@
 HINSTANCE hInst;                                // текущий экземпляр
 WCHAR szTitle[MAX_LOADSTRING];                  // Текст строки заголовка
 WCHAR szWindowClass[MAX_LOADSTRING];            // имя класса главного окна
+HANDLE hEvent;
 
 // Отправить объявления функций, включенных в этот модуль кода:
 ATOM                MyRegisterClass(HINSTANCE hInstance);
@@ -125,6 +126,11 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
     switch (message)
     {
+    case WM_CREATE:
+    {
+        hEvent = OpenEvent(EVENT_MODIFY_STATE, FALSE, L"event_for_lab6");
+        return DefWindowProc(hWnd, message, wParam, lParam);
+    }
     case WM_COMMAND:
         {
             int wmId = LOWORD(wParam);
@@ -132,7 +138,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             switch (wmId)
             {
             case IDM_ABOUT:
-                DialogBox(hInst, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, About);
+                SetEvent(hEvent);
                 break;
             case IDM_EXIT:
                 DestroyWindow(hWnd);
@@ -151,6 +157,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         }
         break;
     case WM_DESTROY:
+        CloseHandle(hEvent);
         PostQuitMessage(0);
         break;
     default:
