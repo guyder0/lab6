@@ -21,12 +21,13 @@ LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
 INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
 
 DWORD WINAPI ThreadFunc(LPVOID lpParam) {
-    DWORD result; // не используется кроме как для корректной передачи параметра
     HWND hwnd = FindWindow(L"TASK31", NULL);
+    wchar_t buffer[100];
     if (hwnd == NULL) return -1;
     ShowWindow(hwnd, SW_SHOW);
     for (int i = 0; i < 100; i++) {
-        SendMessage(hwnd, WM_SIZE, SIZE_RESTORED, MAKELONG(100 + 5 * i, 100 + 5 * i));
+        swprintf(buffer, 100, L"%d", i);
+        SendMessage(hwnd, WM_SETTEXT, 0, (LPARAM)buffer);
         Sleep(50);
     }
     return 0;
@@ -157,7 +158,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             case BUTTON:
             {
                 DWORD result;
-                HANDLE hMutex = CreateMutex(NULL, TRUE, NULL);
+                HANDLE hMutex = CreateMutex(NULL, TRUE, L"mutex_for_communication");
                 hThread = CreateThread(0, 0, ThreadFunc, 0, 0, 0);
                 WaitForSingleObject(hThread, INFINITE);
                 GetExitCodeThread(hThread, &result);
