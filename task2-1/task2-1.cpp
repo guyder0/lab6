@@ -99,7 +99,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    hInst = hInstance; // Сохранить маркер экземпляра в глобальной переменной
 
    HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
-      CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, hInstance, nullptr);
+      CW_USEDEFAULT, 0, 300, 100, nullptr, nullptr, hInstance, nullptr);
 
    if (!hWnd)
    {
@@ -129,7 +129,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     case WM_CREATE:
     {
         hEvent = CreateEvent(NULL, TRUE, FALSE, L"event_for_lab6");
+        ShowWindow(hWnd, SW_SHOW);
         WaitForSingleObject(hEvent, INFINITE);
+        MessageBox(hWnd, L"Первое окно получило сигнал.", L"Информация.", MB_ICONINFORMATION | MB_OK);
         return DefWindowProc(hWnd, message, wParam, lParam);
     }
     case WM_COMMAND:
