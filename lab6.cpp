@@ -26,6 +26,17 @@ ATOM                MyRegisterClass(HINSTANCE hInstance);
 BOOL                InitInstance(HINSTANCE, int);
 LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
 
+void OpenProcess(const wchar_t name[]) {
+    STARTUPINFO si;
+    PROCESS_INFORMATION pi;
+    ZeroMemory(&si, sizeof(si));
+    si.cb = sizeof(si);
+    ZeroMemory(&pi, sizeof(pi));
+    CreateProcess(name, NULL, NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi);
+    CloseHandle(pi.hProcess);
+    CloseHandle(pi.hThread);
+}
+
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_opt_ HINSTANCE hPrevInstance,
                      _In_ LPWSTR    lpCmdLine,
@@ -65,8 +76,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
     return (int) msg.wParam;
 }
-
-
 
 //
 //  ФУНКЦИЯ: MyRegisterClass()
@@ -169,29 +178,17 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                 DestroyWindow(hThreadW);
                 break;
             case ID2_FIRSTAPP:
-            {
-                STARTUPINFO si;
-                PROCESS_INFORMATION pi;
-                ZeroMemory(&si, sizeof(si));
-                si.cb = sizeof(si);
-                ZeroMemory(&pi, sizeof(pi));
-                CreateProcess(L"task2-1.exe", NULL, NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi);
-                CloseHandle(pi.hProcess);
-                CloseHandle(pi.hThread);
-            }
-            break;
+                OpenProcess(L"task2-1.exe");
+                break;
             case ID2_SECONDAPP:
-            {
-                STARTUPINFO si;
-                PROCESS_INFORMATION pi;
-                ZeroMemory(&si, sizeof(si));
-                si.cb = sizeof(si);
-                ZeroMemory(&pi, sizeof(pi));
-                CreateProcess(L"task2-2.exe", NULL, NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi);
-                CloseHandle(pi.hProcess);
-                CloseHandle(pi.hThread);
-            }
-            break;
+                OpenProcess(L"task2-2.exe");
+                break;
+            case ID3_FIRSTAPP:
+                OpenProcess(L"task3-1.exe");
+                break;
+            case ID3_SECONDAPP:
+                OpenProcess(L"task3-2.exe");
+                break;
             case ID4_CREATEFIBER:
                 hThread = CreateThread(NULL, 0, FiberMessageCycle, NULL, 0, NULL);
                 break;
