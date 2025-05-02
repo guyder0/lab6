@@ -17,7 +17,9 @@ WCHAR szTitle[MAX_LOADSTRING];                  // Текст строки за�
 WCHAR szWindowClass[MAX_LOADSTRING];            // имя класса главного окна
 DWORD childstyle = WS_CHILD | WS_CAPTION | WS_POPUP;
 extern WCHAR szThreadChildClass[100]; // имя класса дочернего окна с потоками, объявлено в threads.cpp
+extern WCHAR szFiberChildClass[100]; // аналогично, объявлено в fibers.cpp
 HWND hThreadW, hFiberW; // тут сохраним дескрипторы дочерних окон для их корректного удаления
+HANDLE hThread;
 
 // Отправить объявления функций, включенных в этот модуль кода:
 ATOM                MyRegisterClass(HINSTANCE hInstance);
@@ -39,6 +41,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     LoadStringW(hInstance, IDC_LAB6, szWindowClass, MAX_LOADSTRING);
     MyRegisterClass(hInstance);
     RegisterThreadChild(hInstance);
+    RegisterFiberChild(hInstance);
 
     // Выполнить инициализацию приложения:
     if (!InitInstance (hInstance, nCmdShow))
@@ -189,6 +192,14 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                 CloseHandle(pi.hThread);
             }
             break;
+            case ID4_CREATEFIBER:
+                hThread = CreateThread(NULL, 0, FiberMessageCycle, NULL, 0, NULL);
+                break;
+            case ID4_DELETEFIBER:
+                PostMessage(GetFiberChild(), WM_DESTROY, 0, 0);
+                WaitForSingleObject(hThread, INFINITE);
+                CloseHandle(hThread);
+                break;
             default:
                 return DefWindowProc(hWnd, message, wParam, lParam);
             }

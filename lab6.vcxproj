@@ -133,6 +133,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="fibers.cpp" />
     <ClCompile Include="lab6.cpp" />
     <ClCompile Include="threads.cpp" />
   </ItemGroup>

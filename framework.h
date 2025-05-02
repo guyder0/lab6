@@ -17,3 +17,6 @@
 // дочерние окна
 ATOM RegisterThreadChild(HINSTANCE);
 POINT GetThreadChildSize();
+ATOM RegisterFiberChild(HINSTANCE);
+HWND GetFiberChild();
+DWORD WINAPI FiberMessageCycle(LPVOID);

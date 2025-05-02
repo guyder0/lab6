@@ -10,10 +10,10 @@ typedef struct {
 
 static LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 WCHAR szThreadChildClass[100] = L"threadchild";
-int width = 600, height = 300;
+static int width = 600, height = 300;
 HWND ghWnd;
 
-PDATA pDataArray[2];
+static PDATA pDataArray[2];
 HANDLE hThreadArray[2];
 DWORD dwThreadIdArray[2];
 BOOL stopthreads = false;
